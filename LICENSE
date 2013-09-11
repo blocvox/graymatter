@@ -1,5 +1,5 @@
-ScrambledBrains.EventWiringFacility
-===================================
+ScrambledBrains.EventWiring
+===========================
 High-performance, resolution-time wiring of event raisers and handlers in Windsor-managed applications.
 
 Copyright 2013 Michael McGranahan.
