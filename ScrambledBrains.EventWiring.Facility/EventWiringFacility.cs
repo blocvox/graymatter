@@ -154,7 +154,7 @@ namespace ScrambledBrains.EventWiring.Facility {
                     Invoke(this, new[] {eventMeta.AddHandler})
                 );
 
-                var eventSetupActions = new List<Delegate /* eventMeta.EventType */>();
+                var eventSetupActions = new List<Delegate /* Action<"eventMeta.EventType"> */>();
 
                 foreach (var subscription in _subscriptionConfigs[eventMeta.EventType]) {
                     var /*Action<THandler, TEvent>*/ invoker = (Delegate)(_FACILITY_TYPE.
@@ -189,15 +189,16 @@ namespace ScrambledBrains.EventWiring.Facility {
             return setupActions;
         }
 
-        // The point of this is to cast all untyped delegates to a strong type and cache them, so that we can invoke them
-        // without having to cast the parameter each time.
+        // The point of this is to cast all untyped delegates back to a strong type and close over those references,
+        // and to then invoke them with the same casted THandler instance. This way we need only perform one cast
+        // per component creation.
         private static Action<object> CreateAggregateSetupAction<THandler>(IEnumerable<Delegate> eventSetupActions) {
-            var typedSetupActions = eventSetupActions.Cast<Action<THandler>>().ToList();
+            private var typedSetupActions = eventSetupActions.Cast<Action<THandler>>().ToList();
 
             // This will be invoked in KernelOnComponentCreated.
             return obj => {
-                var handler = (THandler) obj;
-                foreach (var e in typedSetupActions) e(handler);
+                private var handler = (THandler) obj;
+                foreach (private var e in typedSetupActions) private e(handler);
             };
         }
 
@@ -210,7 +211,7 @@ namespace ScrambledBrains.EventWiring.Facility {
             return lambda.Compile();
         }
 
-        // Iinvoked via reflection.
+        // Invoked via reflection.
         private static Action<THandler> CreateSetupAction<THandler, TEvent>(Delegate addHandlerDelegate, Delegate lazyInvokerDelegate) {
             // We cast them strongly, then close over the casted references.
             var addHandler = (Action<THandler, Action<TEvent>>) addHandlerDelegate;
@@ -220,7 +221,7 @@ namespace ScrambledBrains.EventWiring.Facility {
             return handler => addHandler(handler, lazyInvoker);
         }
 
-        // Iinvoked via reflection.
+        // Invoked via reflection.
         private void LazyRunner<THandler, TEvent>(string handlerComponentId, Action<THandler, TEvent> invoker, TEvent arg) {
             var handler = _kernel.Resolve<THandler>(handlerComponentId);
             try {
@@ -230,7 +231,7 @@ namespace ScrambledBrains.EventWiring.Facility {
             }
         }
 
-        // Iinvoked via reflection.
+        // Invoked via reflection.
         private Delegate CreateLazyInvoker<THandler, TEvent>(string handlerComponentId, Action<THandler,TEvent> invoker) {
             // Builds this:
             // (TEvent arg) => this.LazyRunner(handlerComponentId, invoker, arg);
@@ -249,7 +250,7 @@ namespace ScrambledBrains.EventWiring.Facility {
             return lambdaX.Compile();
         }
 
-        // Iinvoked via reflection.
+        // Invoked via reflection.
         private Delegate GetAddHandlerAction<TRaiser, TActionEvent>(MethodInfo addHandlerMethod) {
             // This returns a delegate that is invoked in delegate returned by CreateSetupAction and looks like:
             // (TRaiser raiser, TActionEvent handler) => raiser.Add_Raised(handler);
