@@ -160,19 +160,19 @@ namespace ScrambledBrains.EventWiring.Facility {
                     var /*Action<THandler, TEvent>*/ invoker = (Delegate)(_FACILITY_TYPE.
                         GetMethod("CreateInvoker", BindingFlags.Static | BindingFlags.NonPublic).
                         MakeGenericMethod(subscription.Handler.ReflectedType, eventMeta.EventType).
-                        Invoke(null, new object[]{subscription.Handler})
+                        Invoke(null, new []{subscription.Handler})
                     );
 
                     var /*Action<TEvent>*/ lazyInvoker = (Delegate)(_FACILITY_TYPE.
                         GetMethod("CreateLazyInvoker", BindingFlags.Instance | BindingFlags.NonPublic).
                         MakeGenericMethod(subscription.ServiceType, eventMeta.EventType).
-                        Invoke(this, new object[]{subscription.ComponentId, invoker})
+                        Invoke(this, new []{subscription.ComponentId, invoker})
                     );
 
                     var /*Action<THandler>*/ eventSetupAction = (Delegate)(_FACILITY_TYPE.
                         GetMethod("CreateSetupAction", BindingFlags.Static | BindingFlags.NonPublic).
                         MakeGenericMethod(componentImplementation, eventMeta.EventType).
-                        Invoke(null, new [] {addHandlerAction, lazyInvoker})
+                        Invoke(null, new []{addHandlerAction, lazyInvoker})
                     );
 
                     eventSetupActions.Add(eventSetupAction);
@@ -224,11 +224,8 @@ namespace ScrambledBrains.EventWiring.Facility {
         // Invoked via reflection.
         private void LazyRunner<THandler, TEvent>(string handlerComponentId, Action<THandler, TEvent> invoker, TEvent arg) {
             var handler = _kernel.Resolve<THandler>(handlerComponentId);
-            try {
-                invoker(handler, arg);
-            } finally {
-                _kernel.ReleaseComponent(handler);
-            }
+            try { invoker(handler, arg); }
+            finally { _kernel.ReleaseComponent(handler); }
         }
 
         // Invoked via reflection.
