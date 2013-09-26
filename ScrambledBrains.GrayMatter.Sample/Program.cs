@@ -20,7 +20,7 @@ namespace ScrambledBrains.GrayMatter.Sample {
 
         private static WindsorContainer SetupContainer() {
             var container = new WindsorContainer();
-            container.AddFacility(new GrayMatterFacility());
+            container.AddFacility<GrayMatterFacility>();
             container.Register(Component.For<Provider>());
 
             container.Register(

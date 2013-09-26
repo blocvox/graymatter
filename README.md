@@ -17,7 +17,7 @@ Given event provider and listener of
 
 they can be wired up with
 
-    container.AddFacility(new GrayMatterFacility());
+    container.AddFacility<GrayMatterFacility>();
     container.Register(
         Component.For<Listener>().
 
