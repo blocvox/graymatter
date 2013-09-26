@@ -53,7 +53,7 @@ More information: <http://scrambledbrains.net/2013/09/26/something-useful/>.
 
 Known Issues
 ------------
- - No automated tests (though there are some Debug assertions).
+ - No automated tests. :O
  - No Nuget, neither for the Castle dependency nor for distribution.
 
 License
