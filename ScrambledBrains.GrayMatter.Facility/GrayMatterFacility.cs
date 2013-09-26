@@ -183,29 +183,24 @@ namespace ScrambledBrains.GrayMatter.Facility {
         private static IEnumerable<GrayMatterFacilityEventInfo> GetAllActionEvents(ComponentModel model) {
             var coll = new List<GrayMatterFacilityEventInfo>();
 
-            // Find all potential event property add methods (these are the methods that the compiler
-            // generates for us when we use the 'event' keyword). Need to use this technique instead
-            // of directly adding each handler to eventInfo with AddEventHandler bc .NET 4.0 multicast
-            // delegate contravariance is broken.
             var wireUpMethodCandidates = model.Implementation.
-                GetMethods(BindingFlags.Public | BindingFlags.Instance).
-                Where(mi => mi.Name.StartsWith("add_") || mi.Name.Contains(".add_")).
-                Where(mi => mi.GetParameters().Count() == 1)
+                GetEvents().
+                Where(ei =>
+                    ei.EventHandlerType.IsGenericType &&
+                    ei.EventHandlerType.GetGenericTypeDefinition() == typeof (Action<>)
+                )
             ;
 
-            foreach (var method in wireUpMethodCandidates) {
-                var paramType = method.GetParameters().Single().ParameterType;
-                if (!paramType.IsGenericType || paramType.GetGenericTypeDefinition() != typeof (Action<>)) continue;
-
+            foreach (var @event in wireUpMethodCandidates) {
                 // This returns a delegate that is invoked in delegate returned by CreateSetupAction and looks like:
                 // (TProvider provider, TEvent handler) => provider.Add_Raised(handler);
                 var providerX = Expression.Parameter(model.Implementation);
-                var handlerParamX = Expression.Parameter(paramType);
-                var callX = Expression.Call(providerX, method, handlerParamX);
+                var handlerParamX = Expression.Parameter(@event.EventHandlerType);
+                var callX = Expression.Call(providerX, @event.GetAddMethod(), handlerParamX);
                 var lambdaX = Expression.Lambda(callX, providerX,handlerParamX);
                 var wireUpHandlerAction = lambdaX.Compile();
 
-                coll.Add(new GrayMatterFacilityEventInfo(wireUpHandlerAction, paramType.GetGenericArguments().Single()));
+                coll.Add(new GrayMatterFacilityEventInfo(wireUpHandlerAction, @event.EventHandlerType.GetGenericArguments().Single()));
             }
             return coll;
         }
