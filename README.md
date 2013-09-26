@@ -1,5 +1,5 @@
-ScrambledBrains.EventWiring
-===========================
+ScrambledBrains.GrayMatter
+==========================
 High-performance, resolution-time wiring of event providers and listeners in Windsor-managed applications.
 
 Quick Start
@@ -17,7 +17,7 @@ Given event provider and listener of
 
 they can be wired up with
 
-    container.AddFacility(new EventWiringFacility());
+    container.AddFacility(new GrayMatterFacility());
     container.Register(
         Component.For<Listener>().
     
@@ -33,21 +33,23 @@ they can be wired up with
 
 About
 -----
-In C#, `event` provides a language-level implementation of the Observer Pattern. Despite some limitations, it remains the idiomatic approach to decoupled reactive/event-driven programming.  **EventWiringFacility** carries this idiom to the Castle Windsor IoC container.
+In C#, `event` provides a language-level implementation of the Observer Pattern. Despite some limitations, it remains the idiomatic approach to decoupled reactive/event-driven programming.  **GrayMatterFacility** carries this idiom to the Castle Windsor IoC container.
 
 The solution contains two projects: the facility library, and a sample application.
 
-Several things make EventWiringFacility nice:
+Several things make GrayMatterFacility nice:
  - listener-oriented for looser coupling, unlike the publisher-oriented, tighter-coupled facility provided with Windsor,
  - fluent API that supports compile-time symbol checking,
  - metaprogramming-friendly,
  - event providers do not hold direct references to listener instances, reducing risk of memory leaks and reducing depth of resolved object graphs, and
  - event wiring logic is dynamically constructed, compiled and cached for performance.
 
-EventWiringFacility also imposes some conventions:
+GrayMatterFacility also imposes some conventions:
  - event signatures must conform to `Action<>`,
  - events are identified by their signature, not by name (when listening to an event whose signature is used by multiple events on a type, the handler will be wired to all such events), and
  - the facility supports a Frozen state, during which new event wirings are not allowed.
+
+More information: <http://scrambledbrains.net/2013/09/26/something-useful/>.
 
 Known Issues
 ------------

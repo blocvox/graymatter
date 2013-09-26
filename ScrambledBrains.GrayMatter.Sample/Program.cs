@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
-using ScrambledBrains.EventWiring.Facility;
+using ScrambledBrains.GrayMatter.Facility;
 
-namespace ScrambledBrains.EventWiring.Sample {
+namespace ScrambledBrains.GrayMatter.Sample {
     internal class Program {
         private static void Main() {
             // Arrange.
@@ -20,7 +20,7 @@ namespace ScrambledBrains.EventWiring.Sample {
 
         private static WindsorContainer SetupContainer() {
             var container = new WindsorContainer();
-            container.AddFacility(new EventWiringFacility());
+            container.AddFacility(new GrayMatterFacility());
             container.Register(Component.For<Provider>());
 
             container.Register(

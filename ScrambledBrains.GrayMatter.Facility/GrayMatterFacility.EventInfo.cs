@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace ScrambledBrains.EventWiring.Facility {
-    public partial class EventWiringFacility {
-        private class EventWiringFacilityEventInfo {
-            public EventWiringFacilityEventInfo(Delegate wireUpHandlerAction, Type eventType) {
+namespace ScrambledBrains.GrayMatter.Facility {
+    public partial class GrayMatterFacility {
+        private class GrayMatterFacilityEventInfo {
+            public GrayMatterFacilityEventInfo(Delegate wireUpHandlerAction, Type eventType) {
                 WireUpHandlerAction = wireUpHandlerAction;
                 Type = eventType;
             }

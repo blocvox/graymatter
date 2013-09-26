@@ -7,7 +7,7 @@ using Castle.Core;
 using Castle.Core.Configuration;
 using Castle.MicroKernel;
 
-namespace ScrambledBrains.EventWiring.Facility {
+namespace ScrambledBrains.GrayMatter.Facility {
     /* This is a listener-oriented facility; at the time of registration in
      * Windsor, a component of type TComponent can include extended
      * configuration (of type Provider) specifying
@@ -78,15 +78,15 @@ namespace ScrambledBrains.EventWiring.Facility {
      *
      * Inspired by <http://mikehadlow.blogspot.com/2010/01/10-advanced-windsor-tricks-7-how-to.html>.
      */
-    public partial class EventWiringFacility : IFacility {
-        private const string _WIRING_PROPERTY_KEY = "EventWiring";
-        private static readonly Type _FACILITY_TYPE = typeof (EventWiringFacility);
+    public partial class GrayMatterFacility : IFacility {
+        private const string _PROPERTY_KEY = "EventWiring";
+        private static readonly Type _FACILITY_TYPE = typeof (GrayMatterFacility);
 
         private bool _isFrozen;
         private IKernel _kernel;
 
-        private readonly IDictionary<Type, ICollection<EventWiringFacilityListenerInfo>> _listeners =
-            new Dictionary<Type, ICollection<EventWiringFacilityListenerInfo>>()
+        private readonly IDictionary<Type, ICollection<GrayMatterFacilityListenerInfo>> _listeners =
+            new Dictionary<Type, ICollection<GrayMatterFacilityListenerInfo>>()
         ;
         private readonly IDictionary<Type, IEnumerable<Action<object>>> _eventWiringActionsByComponent =
             new Dictionary<Type, IEnumerable<Action<object>>>()
@@ -101,18 +101,18 @@ namespace ScrambledBrains.EventWiring.Facility {
         private void KernelOnComponentModelCreated(ComponentModel model) {
             var wiringKeys = model.ExtendedProperties.Keys.
                 Cast<string>().
-                Where(k => k.StartsWith(_WIRING_PROPERTY_KEY))
+                Where(k => k.StartsWith(_PROPERTY_KEY))
             ;
 
             foreach (var key in wiringKeys) {
-                if (_isFrozen) throw new InvalidOperationException("A Component was registered after the EventWiringFacility was frozen. Late registrations are not allowed, to ensure that all listeners will receive all event notifications.");
+                if (_isFrozen) throw new InvalidOperationException("A Component was registered after the GrayMatterFacility was frozen. Late registrations are not allowed, to ensure that all listeners will receive all event notifications.");
 
                 var wiring = (Wiring) model.ExtendedProperties[key];
                 if (!_listeners.ContainsKey(wiring.EventType)) {
-                    _listeners.Add(wiring.EventType, new List<EventWiringFacilityListenerInfo>());
+                    _listeners.Add(wiring.EventType, new List<GrayMatterFacilityListenerInfo>());
                 }
 
-                var info = new EventWiringFacilityListenerInfo(model.Name, model.Services.Single(), wiring.HandleAction);
+                var info = new GrayMatterFacilityListenerInfo(model.Name, model.Services.Single(), wiring.HandleAction);
                 _listeners[wiring.EventType].Add(info);
             }
         }
@@ -131,7 +131,7 @@ namespace ScrambledBrains.EventWiring.Facility {
             foreach(var eventWiringAction in eventWiringActions) eventWiringAction(instance);
         }
 
-        private IEnumerable<Action<object>> GetHandlerWiringActions(IEnumerable<EventWiringFacilityEventInfo> componentEvents, Type providerType) {
+        private IEnumerable<Action<object>> GetHandlerWiringActions(IEnumerable<GrayMatterFacilityEventInfo> componentEvents, Type providerType) {
             var setupActions = new List<Action<object>>();
             foreach (var eventMeta in componentEvents) {
                 setupActions.Add((Action<object>)_FACILITY_TYPE.
@@ -180,8 +180,8 @@ namespace ScrambledBrains.EventWiring.Facility {
             );
         }
 
-        private static IEnumerable<EventWiringFacilityEventInfo> GetAllActionEvents(ComponentModel model) {
-            var coll = new List<EventWiringFacilityEventInfo>();
+        private static IEnumerable<GrayMatterFacilityEventInfo> GetAllActionEvents(ComponentModel model) {
+            var coll = new List<GrayMatterFacilityEventInfo>();
 
             // Find all potential event property add methods (these are the methods that the compiler
             // generates for us when we use the 'event' keyword). Need to use this technique instead
@@ -205,7 +205,7 @@ namespace ScrambledBrains.EventWiring.Facility {
                 var lambdaX = Expression.Lambda(callX, providerX,handlerParamX);
                 var wireUpHandlerAction = lambdaX.Compile();
 
-                coll.Add(new EventWiringFacilityEventInfo(wireUpHandlerAction, paramType.GetGenericArguments().Single()));
+                coll.Add(new GrayMatterFacilityEventInfo(wireUpHandlerAction, paramType.GetGenericArguments().Single()));
             }
             return coll;
         }
@@ -214,7 +214,7 @@ namespace ScrambledBrains.EventWiring.Facility {
         public void Terminate() {}
 
         public static string CreateExtendedPropertyKey(Type @event, string handlerType, string handlerMethodName) {
-            return string.Format("{0}|{1}|{2}|{3}", _WIRING_PROPERTY_KEY, @event.FullName, handlerType ?? Guid.NewGuid().ToString(), handlerMethodName ?? "?");
+            return string.Format("{0}|{1}|{2}|{3}", _PROPERTY_KEY, @event.FullName, handlerType ?? Guid.NewGuid().ToString(), handlerMethodName ?? "?");
         }
     }
 }

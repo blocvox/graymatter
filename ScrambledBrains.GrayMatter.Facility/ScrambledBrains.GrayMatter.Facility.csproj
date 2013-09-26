@@ -8,8 +8,8 @@
     <ProjectGuid>{10F214E1-9DBE-402A-A764-70DF5EBDF281}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScrambledBrains.EventWiring.Facility</RootNamespace>
-    <AssemblyName>ScrambledBrains.EventWiring.Facility</AssemblyName>
+    <RootNamespace>ScrambledBrains.GrayMatter.Facility</RootNamespace>
+    <AssemblyName>ScrambledBrains.GrayMatter.Facility</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,21 +42,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentRegistrationEx.cs" />
-    <Compile Include="EventWiringFacility.cs" />
-    <Compile Include="EventWiringFacility.EventInfo.cs">
-      <DependentUpon>EventWiringFacility.cs</DependentUpon>
+    <Compile Include="GrayMatterFacility.cs" />
+    <Compile Include="GrayMatterFacility.EventInfo.cs">
+      <DependentUpon>GrayMatterFacility.cs</DependentUpon>
     </Compile>
-    <Compile Include="EventWiringFacility.ListenerInfo.cs">
-      <DependentUpon>EventWiringFacility.cs</DependentUpon>
+    <Compile Include="GrayMatterFacility.ListenerInfo.cs">
+      <DependentUpon>GrayMatterFacility.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wiring.cs" />
     <Compile Include="ListenerRegistrationForMethod`2.cs" />
     <Compile Include="ListenerRegistration`1.cs" />
-    <Compile Include="TListener.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

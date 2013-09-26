@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Castle.MicroKernel.Registration;
 
-namespace ScrambledBrains.EventWiring.Facility {
+namespace ScrambledBrains.GrayMatter.Facility {
     public static class ComponentRegistrationEx {
         // Usage: Component.For<Something>().ListensTo().Event<InterestingEvent>() ...
         public static ListenerRegistration<TComponent> ListensTo<TComponent>(
@@ -30,7 +30,7 @@ namespace ScrambledBrains.EventWiring.Facility {
             );
 
             registration.ExtendedProperties(Property.
-                ForKey(EventWiringFacility.CreateExtendedPropertyKey(eventType, handleMethod.ReflectedType.ToString(), handleMethod.Name)).
+                ForKey(GrayMatterFacility.CreateExtendedPropertyKey(eventType, handleMethod.ReflectedType.ToString(), handleMethod.Name)).
                 Eq(new Wiring(eventType, @delegate))
             );
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrambledBrains.EventWiring.Sample {
+namespace ScrambledBrains.GrayMatter.Sample {
     internal class Provider {
         public void DoSomething() {
             // Does something...

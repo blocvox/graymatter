@@ -8,8 +8,8 @@
     <ProjectGuid>{957088D4-E7E3-4A8E-9D15-E857934B1158}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScrambledBrains.EventWiring.Sample</RootNamespace>
-    <AssemblyName>ScrambledBrains.EventWiring.Sample</AssemblyName>
+    <RootNamespace>ScrambledBrains.GrayMatter.Sample</RootNamespace>
+    <AssemblyName>ScrambledBrains.GrayMatter.Sample</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -52,16 +52,16 @@
     <Compile Include="Listener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScrambledBrains.EventWiring.Facility\ScrambledBrains.EventWiring.Facility.csproj">
+    <ProjectReference Include="..\ScrambledBrains.GraymAtter.Facility\ScrambledBrains.GrayMatter.Facility.csproj">
       <Project>{10F214E1-9DBE-402A-A764-70DF5EBDF281}</Project>
-      <Name>ScrambledBrains.EventWiring.Facility</Name>
+      <Name>ScrambledBrains.GrayMatter.Facility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrambledBrains.EventWiring.Sample {
+namespace ScrambledBrains.GrayMatter.Sample {
     internal class SomethingOccurrence {
         public SomethingOccurrence() { At = DateTime.UtcNow; }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrambledBrains.EventWiring.Facility {
+namespace ScrambledBrains.GrayMatter.Facility {
     public class Wiring {
         public Type EventType { get; private set; }
 
