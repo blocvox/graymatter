@@ -166,7 +166,7 @@ namespace ScrambledBrains.EventWiring.Facility {
                     var /*Action<TEvent>*/ lazyInvoker = (Delegate)(_FACILITY_TYPE.
                         GetMethod("CreateLazyInvoker", BindingFlags.Instance | BindingFlags.NonPublic).
                         MakeGenericMethod(subscription.ServiceType, eventMeta.EventType).
-                        Invoke(this, new []{subscription.ComponentId, invoker})
+                        Invoke(this, new object[]{subscription.ComponentId, invoker})
                     );
 
                     var /*Action<THandler>*/ eventSetupAction = (Delegate)(_FACILITY_TYPE.
@@ -193,12 +193,12 @@ namespace ScrambledBrains.EventWiring.Facility {
         // and to then invoke them with the same casted THandler instance. This way we need only perform one cast
         // per component creation.
         private static Action<object> CreateAggregateSetupAction<THandler>(IEnumerable<Delegate> eventSetupActions) {
-            private var typedSetupActions = eventSetupActions.Cast<Action<THandler>>().ToList();
+            var typedSetupActions = eventSetupActions.Cast<Action<THandler>>().ToList();
 
             // This will be invoked in KernelOnComponentCreated.
             return obj => {
-                private var handler = (THandler) obj;
-                foreach (private var e in typedSetupActions) private e(handler);
+                var handler = (THandler) obj;
+                foreach (var e in typedSetupActions) e(handler);
             };
         }
 
