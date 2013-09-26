@@ -1,6 +1,6 @@
 ScrambledBrains.GrayMatter
 ==========================
-High-performance, resolution-time wiring of event providers and listeners in Windsor-managed applications.
+High-performance listener-oriented wiring of event providers and listeners in Windsor-managed applications.
 
 Copyright 2013 Michael McGranahan.
 
