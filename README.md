@@ -55,6 +55,7 @@ Known Issues
 ------------
  - No automated tests. :O
  - No Nuget, neither for the Castle dependency nor for distribution.
+ - No XML configuration support.
 
 License
 -------
