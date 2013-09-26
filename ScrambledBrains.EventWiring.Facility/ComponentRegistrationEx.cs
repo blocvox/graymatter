@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using Castle.MicroKernel.Registration;
 
@@ -22,9 +23,15 @@ namespace ScrambledBrains.EventWiring.Facility {
             Debug.Assert(handler.ReturnType == typeof(void));
             Debug.Assert(handler.GetParameters().Single().ParameterType == eventType);
 
+            var /*Action<THandler, TEvent>*/ @delegate = (Delegate)(typeof(ComponentRegistrationEx).
+                GetMethod("CreateInvoker", BindingFlags.Static | BindingFlags.NonPublic).
+                MakeGenericMethod(typeof(TComponent),eventType).
+                Invoke(null, new object[]{handler})
+            );
+
             registration.ExtendedProperties(Property.
-                ForKey(EventWiringFacility.CreateExtendedPropertyKey(eventType, handler)).
-                Eq(new Subscription(eventType, handler))
+                ForKey(EventWiringFacility.CreateExtendedPropertyKey(eventType, handler.ReflectedType.ToString(), handler.Name)).
+                Eq(new Subscription(eventType, @delegate))
             );
 
             return registration;
@@ -39,6 +46,15 @@ namespace ScrambledBrains.EventWiring.Facility {
                 eventType,
                 typeof(TComponent).GetMethod(methodName, new[] { eventType })
             );
+        }
+
+        // Invoked via reflection.
+        private static Delegate CreateInvoker<TComponent, TEvent>(MethodInfo method) {
+            var handlerParamX = Expression.Parameter(typeof(TComponent));
+            var eventParamX = Expression.Parameter(typeof(TEvent));
+            var callX = Expression.Call(handlerParamX, method, eventParamX);
+            var lambda = Expression.Lambda(callX, handlerParamX, eventParamX);
+            return lambda.Compile();
         }
     }
 }

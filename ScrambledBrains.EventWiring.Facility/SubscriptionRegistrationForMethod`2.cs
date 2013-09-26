@@ -12,15 +12,10 @@ namespace ScrambledBrains.EventWiring.Facility {
             _componentRegistration = componentRegistration;
         }
 
-        public ComponentRegistration<THandler> With(Expression<Action<THandler, TEvent>> handler) {
-            var callX = (MethodCallExpression) handler.Body;
-
-            Debug.Assert(callX.Method.ReturnType == typeof(void));
-            Debug.Assert(callX.Method.GetParameters().Single().ParameterType == typeof(TEvent));
-
+        public ComponentRegistration<THandler> With(Action<THandler, TEvent> handler) {
             _componentRegistration.ExtendedProperties(Property.
-                ForKey(EventWiringFacility.CreateExtendedPropertyKey(typeof(TEvent), callX.Method)).
-                Eq(new Subscription(typeof (TEvent), callX.Method))
+                ForKey(EventWiringFacility.CreateExtendedPropertyKey(typeof(TEvent), null, null)).
+                Eq(new Subscription(typeof (TEvent), handler))
             );
 
             return _componentRegistration;

@@ -157,16 +157,10 @@ namespace ScrambledBrains.EventWiring.Facility {
                 var eventSetupActions = new List<Delegate /* Action<"eventMeta.EventType"> */>();
 
                 foreach (var subscription in _subscriptionConfigs[eventMeta.EventType]) {
-                    var /*Action<THandler, TEvent>*/ invoker = (Delegate)(_FACILITY_TYPE.
-                        GetMethod("CreateInvoker", BindingFlags.Static | BindingFlags.NonPublic).
-                        MakeGenericMethod(subscription.Handler.ReflectedType, eventMeta.EventType).
-                        Invoke(null, new []{subscription.Handler})
-                    );
-
                     var /*Action<TEvent>*/ lazyInvoker = (Delegate)(_FACILITY_TYPE.
                         GetMethod("CreateLazyInvoker", BindingFlags.Instance | BindingFlags.NonPublic).
                         MakeGenericMethod(subscription.ServiceType, eventMeta.EventType).
-                        Invoke(this, new object[]{subscription.ComponentId, invoker})
+                        Invoke(this, new object[]{subscription.ComponentId, subscription.Handler})
                     );
 
                     var /*Action<THandler>*/ eventSetupAction = (Delegate)(_FACILITY_TYPE.
@@ -200,15 +194,6 @@ namespace ScrambledBrains.EventWiring.Facility {
                 var handler = (THandler) obj;
                 foreach (var e in typedSetupActions) e(handler);
             };
-        }
-
-        // Invoked via reflection.
-        private static Delegate CreateInvoker<THandler, TEvent>(MethodInfo method) {
-            var handlerParamX = Expression.Parameter(typeof(THandler));
-            var eventParamX = Expression.Parameter(typeof(TEvent));
-            var callX = Expression.Call(handlerParamX, method, eventParamX);
-            var lambda = Expression.Lambda(callX, handlerParamX, eventParamX);
-            return lambda.Compile();
         }
 
         // Invoked via reflection.
@@ -283,8 +268,8 @@ namespace ScrambledBrains.EventWiring.Facility {
         public void Freeze() { _isFrozen = true; }
         public void Terminate() {}
 
-        public static string CreateExtendedPropertyKey(Type @event, MethodInfo handler) {
-            return string.Format("{0}|{1}|{2}|{3}", _SUBSCRIPTION_PROPERTY_KEY, @event.FullName, handler.ReflectedType, handler.Name);
+        public static string CreateExtendedPropertyKey(Type @event, string handlerType, string handlerMethodName) {
+            return string.Format("{0}|{1}|{2}|{3}", _SUBSCRIPTION_PROPERTY_KEY, @event.FullName, handlerType ?? Guid.NewGuid().ToString(), handlerMethodName ?? "?");
         }
     }
 }
