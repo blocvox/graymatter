@@ -1,16 +1,16 @@
 ScrambledBrains.EventWiring
 ===========================
-High-performance, resolution-time wiring of event raisers and handlers in Windsor-managed applications.
+High-performance, resolution-time wiring of event providers and listeners in Windsor-managed applications.
 
 Quick Start
 -----------
-Given event raiser and event handler of
+Given event provider and listener of
 
-    class Publisher {
+    class Provider {
         public event Action<InterestingEventData> OnInterestingEvent;
     }
 
-    class Subscriber {
+    class Listener {
         public void HandleInterestingEventA(InterestingEventData args) { /* ... */ }
         public void HandleInterestingEventB(InterestingEventData args) { /* ... */ }
     }
@@ -19,15 +19,15 @@ they can be wired up with
 
     container.AddFacility(new EventWiringFacility());
     container.Register(
-        Component.For<Subscriber>().
+        Component.For<Listener>().
     
         // Method 1: Strongly-typed for hand-coding.
-        SubscribesTo().
+        ListensTo().
         Event<InterestingEventData>().
-        With((subscriber, arg) => subscriber.HandleInterestingEventA(arg)).
+        With((listener, arg) => listener.HandleInterestingEventA(arg)).
     
         // Method 2: string-based for metaprogramming.
-        SubscribesToEvent(typeof(InterestingEventData), "HandleInterestingEventB")
+        ListensToEvent(typeof(InterestingEventData), "HandleInterestingEventB")
     );
 
 
@@ -38,22 +38,21 @@ In C#, `event` provides a language-level implementation of the Observer Pattern.
 The solution contains two projects: the facility library, and a sample application.
 
 Several things make EventWiringFacility nice:
- - subscriber-oriented for looser coupling, unlike the publisher-oriented, tighter-coupled facility provided with Windsor,
+ - listener-oriented for looser coupling, unlike the publisher-oriented, tighter-coupled facility provided with Windsor,
  - fluent API that supports compile-time symbol checking,
  - metaprogramming-friendly,
- - event raisers do not hold direct references to event handlers, reducing risk of memory leaks and reducing depth of resolved object graphs, and
+ - event providers do not hold direct references to listener instances, reducing risk of memory leaks and reducing depth of resolved object graphs, and
  - event wiring logic is dynamically constructed, compiled and cached for performance.
 
 EventWiringFacility also imposes some conventions:
  - event signatures must conform to `Action<>`,
- - events are identified by their signature, not by name (when an event handler subscribes to an event signature that is matched by multiple events on a type, all such events will be wired to the handler), and
- - the facility supports a Frozen state, during which new event subscriptions are not allowed.
+ - events are identified by their signature, not by name (when listening to an event whose signature is used by multiple events on a type, the handler will be wired to all such events), and
+ - the facility supports a Frozen state, during which new event wirings are not allowed.
 
 Known Issues
 ------------
  - No automated tests (though there are some Debug assertions).
  - No Nuget, neither for the Castle dependency nor for distribution.
- - Source terminology shifts between "raisers/handlers" and "publishers/subscribers".
 
 License
 -------

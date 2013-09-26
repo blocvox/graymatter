@@ -7,42 +7,42 @@ using Castle.MicroKernel.Registration;
 
 namespace ScrambledBrains.EventWiring.Facility {
     public static class ComponentRegistrationEx {
-        // Usage: Component.For<Something>().SubscribesTo().Event<InterestingEvent>() ...
-        public static SubscriptionRegistration<TComponent> SubscribesTo<TComponent>(
+        // Usage: Component.For<Something>().ListensTo().Event<InterestingEvent>() ...
+        public static ListenerRegistration<TComponent> ListensTo<TComponent>(
             this ComponentRegistration<TComponent> registration
         ) where TComponent : class {
-            return new SubscriptionRegistration<TComponent>(registration);
+            return new ListenerRegistration<TComponent>(registration);
         }
 
-        public static ComponentRegistration<TComponent> SubscribesToEvent<TComponent>(
+        public static ComponentRegistration<TComponent> ListensToEvent<TComponent>(
             this ComponentRegistration<TComponent> registration,
             Type eventType,
-            MethodInfo handler
+            MethodInfo handleMethod
         ) where TComponent : class {
-            Debug.Assert(handler != null);
-            Debug.Assert(handler.ReturnType == typeof(void));
-            Debug.Assert(handler.GetParameters().Single().ParameterType == eventType);
+            Debug.Assert(handleMethod != null);
+            Debug.Assert(handleMethod.ReturnType == typeof(void));
+            Debug.Assert(handleMethod.GetParameters().Single().ParameterType == eventType);
 
-            var /*Action<THandler, TEvent>*/ @delegate = (Delegate)(typeof(ComponentRegistrationEx).
+            var /*Action<TListener, TEvent>*/ @delegate = (Delegate)(typeof(ComponentRegistrationEx).
                 GetMethod("CreateInvoker", BindingFlags.Static | BindingFlags.NonPublic).
                 MakeGenericMethod(typeof(TComponent),eventType).
-                Invoke(null, new object[]{handler})
+                Invoke(null, new object[]{handleMethod})
             );
 
             registration.ExtendedProperties(Property.
-                ForKey(EventWiringFacility.CreateExtendedPropertyKey(eventType, handler.ReflectedType.ToString(), handler.Name)).
-                Eq(new Subscription(eventType, @delegate))
+                ForKey(EventWiringFacility.CreateExtendedPropertyKey(eventType, handleMethod.ReflectedType.ToString(), handleMethod.Name)).
+                Eq(new Wiring(eventType, @delegate))
             );
 
             return registration;
         }
 
-        public static ComponentRegistration<TComponent> SubscribesToEvent<TComponent>(
+        public static ComponentRegistration<TComponent> ListensToEvent<TComponent>(
             this ComponentRegistration<TComponent> registration,
             Type eventType,
             string methodName
         ) where TComponent : class {
-            return registration.SubscribesToEvent(
+            return registration.ListensToEvent(
                 eventType,
                 typeof(TComponent).GetMethod(methodName, new[] { eventType })
             );

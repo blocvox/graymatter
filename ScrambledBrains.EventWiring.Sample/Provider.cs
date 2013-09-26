@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace ScrambledBrains.EventWiring.Sample {
-    internal class Publisher {
+    internal class Provider {
         public void DoSomething() {
             // Does something...
 

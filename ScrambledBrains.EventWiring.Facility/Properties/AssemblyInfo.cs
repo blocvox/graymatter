@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("ScrambledBrains.EventWiring.Facility")]
-[assembly: AssemblyDescription("High-performance, resolution-time wiring of event raisers and handlers in Windsor-managed applications.")]
+[assembly: AssemblyDescription("High-performance, resolution-time wiring of event providers and listeners in Windsor-managed applications.")]
 [assembly: AssemblyProduct("ScrambledBrains.EventWiring.Sample")]
 [assembly: AssemblyCopyright("Copyright © 2013 Michael McGranahan")]
 [assembly: ComVisible(false)]

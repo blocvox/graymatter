@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace ScrambledBrains.EventWiring.Sample {
-    internal class Subscriber {
+    internal class Listener {
         public static bool WasAInvoked { get; private set; }
         public static bool WasBInvoked { get; private set; }
         public static bool WasCInvoked { get; private set; }

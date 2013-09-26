@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Reflection;
 
 namespace ScrambledBrains.EventWiring.Facility {
     public partial class EventWiringFacility {
         private class EventWiringFacilityEventInfo {
-            public EventWiringFacilityEventInfo(MethodInfo addHandler, Type eventType) {
-                AddHandler = addHandler;
-                EventType = eventType;
+            public EventWiringFacilityEventInfo(Delegate wireUpHandlerAction, Type eventType) {
+                WireUpHandlerAction = wireUpHandlerAction;
+                Type = eventType;
             }
 
-            public MethodInfo AddHandler { get; private set; }
-            public Type EventType { get; private set; }
+            public Delegate WireUpHandlerAction { get; private set; }
+            public Type Type { get; private set; }
         }
     }
 }

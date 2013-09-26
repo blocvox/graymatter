@@ -10,34 +10,34 @@ namespace ScrambledBrains.EventWiring.Sample {
             var container = SetupContainer();
 
             // Act.
-            container.Resolve<Publisher>().DoSomething();
+            container.Resolve<Provider>().DoSomething();
 
             // Assert.
-            Debug.Assert(Subscriber.WasAInvoked);
-            Debug.Assert(Subscriber.WasBInvoked);
-            Debug.Assert(Subscriber.WasCInvoked);
+            Debug.Assert(Listener.WasAInvoked);
+            Debug.Assert(Listener.WasBInvoked);
+            Debug.Assert(Listener.WasCInvoked);
         }
 
         private static WindsorContainer SetupContainer() {
             var container = new WindsorContainer();
             container.AddFacility(new EventWiringFacility());
-            container.Register(Component.For<Publisher>());
+            container.Register(Component.For<Provider>());
 
             container.Register(
-                Component.For<Subscriber>().
+                Component.For<Listener>().
 
-                // Subscribe with generic method. Strongest typing and takes advantage of symbol rename tools.
-                SubscribesTo().
+                // Generic method. Strongly-typed to take advantage of IntelliSense.
+                ListensTo().
                 Event<SomethingOccurrence>().
-                With((subscriber, arg) => subscriber.HandleSomethingOccurrenceA(arg)).
+                With((listener, arg) => listener.HandleSomethingOccurrenceA(arg)).
 
-                // Subscribe with reflective type passing and magic string. Easiest to metaprogram.
-                SubscribesToEvent(typeof(SomethingOccurrence), "HandleSomethingOccurrenceB").
+                // Reflective type passing and magic string. Easiest to metaprogram.
+                ListensToEvent(typeof(SomethingOccurrence), "HandleSomethingOccurrenceB").
 
                 // Useful when metaprogramming and you already have the MethodInfo.
-                SubscribesToEvent(
+                ListensToEvent(
                     typeof(SomethingOccurrence),
-                    typeof(Subscriber).GetMethod("HandleSomethingOccurrenceC")
+                    typeof(Listener).GetMethod("HandleSomethingOccurrenceC")
                 )
             );
 

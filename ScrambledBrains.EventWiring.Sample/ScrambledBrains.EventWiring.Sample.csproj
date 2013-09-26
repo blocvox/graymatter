@@ -47,9 +47,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Publisher.cs" />
+    <Compile Include="Provider.cs" />
     <Compile Include="SomethingOccurrence.cs" />
-    <Compile Include="Subscriber.cs" />
+    <Compile Include="Listener.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScrambledBrains.EventWiring.Facility\ScrambledBrains.EventWiring.Facility.csproj">
