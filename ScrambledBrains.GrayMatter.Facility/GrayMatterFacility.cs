@@ -147,7 +147,7 @@ namespace ScrambledBrains.GrayMatter.Facility {
         private Action<object> GetCompositeEventWiringAction<TProvider, TEvent>(Action<TProvider, Action<TEvent>> componentWireUpHandlerAction) {
             var handlerWiringActions = new List<Action<TProvider>>();
             foreach (var listener in _listeners[typeof(TEvent)]) {
-                var /*Action<TProvider>*/ eventSetupAction = (Action<TProvider>)(_FACILITY_TYPE.
+                var eventSetupAction = (Action<TProvider>)(_FACILITY_TYPE.
                     GetMethod("GetHandlerEventWiringAction", BindingFlags.Instance | BindingFlags.NonPublic).
                     MakeGenericMethod(listener.Type, typeof(TEvent), typeof(TProvider)).
                     Invoke(this, new object[]{listener.ComponentId, listener.HandleAction, componentWireUpHandlerAction})
