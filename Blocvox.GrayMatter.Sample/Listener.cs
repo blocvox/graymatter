@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrambledBrains.GrayMatter.Sample {
+namespace Blocvox.GrayMatter.Sample {
     internal class Listener {
         public static bool WasAInvoked { get; private set; }
         public static bool WasBInvoked { get; private set; }

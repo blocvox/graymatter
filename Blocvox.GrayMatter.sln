@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrambledBrains.GrayMatter.Facility", "ScrambledBrains.GraymAtter.Facility\ScrambledBrains.GrayMatter.Facility.csproj", "{10F214E1-9DBE-402A-A764-70DF5EBDF281}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blocvox.GrayMatter.Facility", "Blocvox.GraymAtter.Facility\Blocvox.GrayMatter.Facility.csproj", "{10F214E1-9DBE-402A-A764-70DF5EBDF281}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrambledBrains.GrayMatter.Sample", "ScrambledBrains.GraymAtter.Sample\ScrambledBrains.GrayMatter.Sample.csproj", "{957088D4-E7E3-4A8E-9D15-E857934B1158}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blocvox.GrayMatter.Sample", "Blocvox.GraymAtter.Sample\Blocvox.GrayMatter.Sample.csproj", "{957088D4-E7E3-4A8E-9D15-E857934B1158}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{05FAFAEE-9D21-4226-8CDC-66650E400D09}"
 	ProjectSection(SolutionItems) = preProject

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Castle.MicroKernel.Registration;
 
-namespace ScrambledBrains.GrayMatter.Facility {
+namespace Blocvox.GrayMatter.Facility {
     public static class ComponentRegistrationEx {
         // Usage: Component.For<Something>().ListensTo().Event<InterestingEvent>() ...
         public static ListenerRegistration<TComponent> ListensTo<TComponent>(

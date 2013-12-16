@@ -7,7 +7,7 @@ using Castle.Core;
 using Castle.Core.Configuration;
 using Castle.MicroKernel;
 
-namespace ScrambledBrains.GrayMatter.Facility {
+namespace Blocvox.GrayMatter.Facility {
     /* This is a listener-oriented facility; at the time of registration in
      * Windsor, a component of type TComponent can include extended
      * configuration (of type Provider) specifying

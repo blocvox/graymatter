@@ -1,4 +1,4 @@
-ScrambledBrains.GrayMatter
+Blocvox.GrayMatter
 ==========================
 High-performance listener-oriented wiring of event providers and listeners in Windsor-managed applications.
 
@@ -59,7 +59,7 @@ Known Issues
 
 License
 -------
-Copyright 2013 Michael McGranahan.
+Copyright 2013 Blocvox LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

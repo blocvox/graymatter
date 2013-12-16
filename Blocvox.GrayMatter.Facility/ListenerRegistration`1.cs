@@ -1,6 +1,6 @@
 ﻿using Castle.MicroKernel.Registration;
 
-namespace ScrambledBrains.GrayMatter.Facility {
+namespace Blocvox.GrayMatter.Facility {
     public class ListenerRegistration<TComponent> where TComponent : class {
         private readonly ComponentRegistration<TComponent> _componentRegistration;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrambledBrains.GrayMatter.Facility {
+namespace Blocvox.GrayMatter.Facility {
     public partial class GrayMatterFacility {
         private class GrayMatterFacilityEventInfo {
             public GrayMatterFacilityEventInfo(Delegate wireUpHandlerAction, Type eventType) {

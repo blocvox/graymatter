@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrambledBrains.GrayMatter.Sample {
+namespace Blocvox.GrayMatter.Sample {
     internal class SomethingOccurrence {
         public SomethingOccurrence() { At = DateTime.UtcNow; }
 

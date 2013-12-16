@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrambledBrains.GrayMatter.Facility {
+namespace Blocvox.GrayMatter.Facility {
     public class Wiring {
         public Type EventType { get; private set; }
 

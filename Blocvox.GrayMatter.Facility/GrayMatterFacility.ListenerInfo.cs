@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrambledBrains.GrayMatter.Facility {
+namespace Blocvox.GrayMatter.Facility {
     public partial class GrayMatterFacility {
         private class GrayMatterFacilityListenerInfo {
             public string ComponentId { get; private set; }

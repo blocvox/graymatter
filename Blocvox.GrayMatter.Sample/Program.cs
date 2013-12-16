@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
+using Blocvox.GrayMatter.Facility;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
-using ScrambledBrains.GrayMatter.Facility;
 
-namespace ScrambledBrains.GrayMatter.Sample {
+namespace Blocvox.GrayMatter.Sample {
     internal class Program {
         private static void Main() {
             // Arrange.

@@ -2,21 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{957088D4-E7E3-4A8E-9D15-E857934B1158}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{10F214E1-9DBE-402A-A764-70DF5EBDF281}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScrambledBrains.GrayMatter.Sample</RootNamespace>
-    <AssemblyName>ScrambledBrains.GrayMatter.Sample</AssemblyName>
+    <RootNamespace>Blocvox.GrayMatter.Facility</RootNamespace>
+    <AssemblyName>Blocvox.GrayMatter.Facility</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -45,20 +41,18 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="ComponentRegistrationEx.cs" />
+    <Compile Include="GrayMatterFacility.cs" />
+    <Compile Include="GrayMatterFacility.EventInfo.cs">
+      <DependentUpon>GrayMatterFacility.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GrayMatterFacility.ListenerInfo.cs">
+      <DependentUpon>GrayMatterFacility.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Provider.cs" />
-    <Compile Include="SomethingOccurrence.cs" />
-    <Compile Include="Listener.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ScrambledBrains.GraymAtter.Facility\ScrambledBrains.GrayMatter.Facility.csproj">
-      <Project>{10F214E1-9DBE-402A-A764-70DF5EBDF281}</Project>
-      <Name>ScrambledBrains.GrayMatter.Facility</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
+    <Compile Include="Wiring.cs" />
+    <Compile Include="ListenerRegistrationForMethod`2.cs" />
+    <Compile Include="ListenerRegistration`1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
