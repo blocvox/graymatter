@@ -10,7 +10,7 @@ namespace Blocvox.GrayMatter.Sample {
 
         public event Action<SomethingOccurrence> SomethingOccurred;
 
-        public void OnSomethingOccurred() {
+        protected virtual void OnSomethingOccurred() {
             var handler = SomethingOccurred;
             if (handler != null) handler(new SomethingOccurrence());
         }

@@ -16,6 +16,9 @@ namespace Blocvox.GrayMatter.Sample {
             Debug.Assert(Listener.WasAInvoked);
             Debug.Assert(Listener.WasBInvoked);
             Debug.Assert(Listener.WasCInvoked);
+
+            try { container.Resolve<UninterestingProvider>(); }
+            catch { Debug.Fail("Couldn't resolve service having an event with no listeners."); }
         }
 
         private static WindsorContainer SetupContainer() {
@@ -40,6 +43,9 @@ namespace Blocvox.GrayMatter.Sample {
                     typeof(Listener).GetMethod("HandleSomethingOccurrenceC")
                 )
             );
+
+            // This type offers an event, but nothing is interested in listening to it.
+            container.Register(Component.For<UninterestingProvider>());
 
             return container;
         }

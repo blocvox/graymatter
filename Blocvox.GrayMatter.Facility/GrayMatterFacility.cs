@@ -134,6 +134,8 @@ namespace Blocvox.GrayMatter.Facility {
         private IEnumerable<Action<object>> GetHandlerWiringActions(IEnumerable<GrayMatterFacilityEventInfo> componentEvents, Type providerType) {
             var setupActions = new List<Action<object>>();
             foreach (var eventMeta in componentEvents) {
+                if (!_listeners.ContainsKey(eventMeta.Type)) continue;
+
                 setupActions.Add((Action<object>)_FACILITY_TYPE.
                     GetMethod("GetCompositeEventWiringAction", BindingFlags.Instance | BindingFlags.NonPublic).
                     MakeGenericMethod(providerType, eventMeta.Type).
