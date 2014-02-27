@@ -6,30 +6,33 @@ Quick Start
 -----------
 Given event provider and listener of
 
-    class Provider {
-        public event Action<InterestingEventData> OnInterestingEvent;
-    }
+```csharp
+class Provider {
+    public event Action<InterestingEventData> OnInterestingEvent;
+}
 
-    class Listener {
-        public void HandleInterestingEventA(InterestingEventData args) { /* ... */ }
-        public void HandleInterestingEventB(InterestingEventData args) { /* ... */ }
-    }
+class Listener {
+    public void HandleInterestingEventA(InterestingEventData args) { /* ... */ }
+    public void HandleInterestingEventB(InterestingEventData args) { /* ... */ }
+}
+```
 
 they can be wired up with
 
-    container.AddFacility<GrayMatterFacility>();
-    container.Register(
-        Component.For<Listener>().
+```csharp
+container.AddFacility<GrayMatterFacility>();
+container.Register(
+    Component.For<Listener>().
 
-        // Method 1: Strongly-typed for hand-coding.
-        ListensTo().
-        Event<InterestingEventData>().
-        With((listener, arg) => listener.HandleInterestingEventA(arg)).
+    // Method 1: Strongly-typed for hand-coding.
+    ListensTo().
+    Event<InterestingEventData>().
+    With((listener, arg) => listener.HandleInterestingEventA(arg)).
 
-        // Method 2: string-based for metaprogramming.
-        ListensToEvent(typeof(InterestingEventData), "HandleInterestingEventB")
-    );
-
+    // Method 2: string-based for metaprogramming.
+    ListensToEvent(typeof(InterestingEventData), "HandleInterestingEventB")
+);
+```
 
 About
 -----
