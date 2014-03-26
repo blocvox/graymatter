@@ -7,7 +7,11 @@ using Castle.MicroKernel.Registration;
 
 namespace Blocvox.GrayMatter.Facility {
     public static class ComponentRegistrationEx {
-        // Usage: Component.For<Something>().ListensTo().Event<InterestingEvent>() ...
+        // Usage: Component.For<Something>().ListensTo().Event<InterestingEvent>().With( ...
+        // NOTE: The reason we have an intermediate ListenerRegistration<T> in our fluent API is to
+        // allow us to leverage C#'s generic type inference from the first parameter. Otherwise,
+        // we would have to specify the types explicitly (and verbosely), as with
+        //   Component.For<Listener>().ListensToEvent<Listener, SomethingOccurrence().With( ...
         public static ListenerRegistration<TComponent> ListensTo<TComponent>(
             this ComponentRegistration<TComponent> registration
         ) where TComponent : class {
@@ -30,7 +34,10 @@ namespace Blocvox.GrayMatter.Facility {
             );
 
             registration.ExtendedProperties(Property.
-                ForKey(GrayMatterFacility.CreateExtendedPropertyKey(eventType, handleMethod.ReflectedType.ToString(), handleMethod.Name)).
+                ForKey(GrayMatterFacility.CreateExtendedPropertyKey(
+                    eventType, handleMethod.ReflectedType.ToString(),
+                    handleMethod.Name
+                )).
                 Eq(new Wiring(eventType, @delegate))
             );
 
