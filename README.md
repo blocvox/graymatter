@@ -24,13 +24,13 @@ container.AddFacility<GrayMatterFacility>();
 container.Register(
     Component.For<Listener>().
 
-    // Method 1: Strongly-typed for hand-coding.
-    ListensTo().
-    Event<InterestingEventData>().
-    With((listener, arg) => listener.HandleInterestingEventA(arg)).
+        // Method 1: Strongly-typed for hand-coding.
+        ListensTo().
+        Event<InterestingEventData>().
+        With((listener, arg) => listener.HandleInterestingEventA(arg)).
 
-    // Method 2: string-based for metaprogramming.
-    ListensToEvent(typeof(InterestingEventData), "HandleInterestingEventB")
+        // Method 2: string-based for metaprogramming.
+        ListensToEvent(typeof(InterestingEventData), "HandleInterestingEventB")
 );
 ```
 
